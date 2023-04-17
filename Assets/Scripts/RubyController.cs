@@ -19,9 +19,7 @@ public class RubyController : MonoBehaviour
     private Rigidbody2D rubyRb;
     Animator animator;
     Vector2 lookDirection = new Vector2(1,0);
-
     AudioSource audioSource;
-    // Start is called before the first frame update
     void Start()
     {
         // Setting Timming and framerate 
@@ -32,7 +30,7 @@ public class RubyController : MonoBehaviour
 
         currentHealth = maxHealth;
 
-        audioSource=GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame

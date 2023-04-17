@@ -5,7 +5,8 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     Rigidbody2D projectileRb;
-    public AudioClip collectedClip;
+
+    public AudioClip hitClip;
     // Start is called before the first frame update
     void Awake()
     {
@@ -30,7 +31,7 @@ public class Projectile : MonoBehaviour
         if (e != null)
         {
             e.Broken();
-            e.PlaySound(collectedClip);
+            e.PlaySound(hitClip);
         }
         Destroy(gameObject);
         

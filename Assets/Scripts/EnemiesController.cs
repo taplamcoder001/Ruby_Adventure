@@ -12,7 +12,7 @@ public class EnemiesController : MonoBehaviour
     public int direction = 1;
     private Rigidbody2D enemyRb;
     Animator animator;
-    bool broken = false;
+    bool broken = true;
     AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
@@ -26,22 +26,28 @@ public class EnemiesController : MonoBehaviour
     }
 
     private void Update() {
+        //remember ! inverse the test, so if broken is true !broken will be false and return won’t be executed.
+        if(!broken)
+        {
+            return;
+        }
+
         time -= Time.deltaTime;
 
         if(time <0)
         {
             direction = -direction;
             time = changeTime;
-        }
-
-        if(!broken)
-        {
-            return;
         }   
     }
 
     void FixedUpdate()
     {
+        //remember ! inverse the test, so if broken is true !broken will be false and return won’t be executed.
+        if(!broken)
+        {
+            return;
+        }
         Vector2 position = enemyRb.position;
 
         if(vertical)
@@ -60,28 +66,29 @@ public class EnemiesController : MonoBehaviour
         enemyRb.MovePosition(position);
     }
 
-    IEnumerator waiting()
-    {
-        yield return new WaitForSeconds(3);
-    } 
+    // IEnumerator waiting()
+    // {
+    //     yield return new WaitForSeconds(3);
+    // } 
 
+    //Public because we want to call it from elsewhere like the projectile script
     public void Fix()
     {
-        StartCoroutine(waiting());
         broken = false;
-        // smokeEffect.Stop();
-        // Destroy(smokeEffect.gameObject);
         enemyRb.simulated = false;
+        //optional if you added the fixed animation
         animator.SetTrigger("Fixed");
+        
+        smokeEffect.Stop();
     }
 
-    public void Broken()
-    {
-        broken = true;
-        // smokeEffect.Play();
-        enemyRb.simulated = false;
-        animator.SetTrigger("Fixed");
-    }
+    // public void Broken()
+    // {
+    //     broken = true;
+    //     // smokeEffect.Play();
+    //     enemyRb.simulated = false;
+    //     animator.SetTrigger("Fixed");
+    // }
 
     void OnCollisionEnter2D(Collision2D other) {
         RubyController player = other.gameObject.GetComponent<RubyController>();

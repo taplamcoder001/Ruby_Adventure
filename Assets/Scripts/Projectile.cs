@@ -30,7 +30,7 @@ public class Projectile : MonoBehaviour
         EnemiesController e = other.collider.GetComponent<EnemiesController>();
         if (e != null)
         {
-            e.Broken();
+            e.Fix();
             e.PlaySound(hitClip);
         }
         Destroy(gameObject);

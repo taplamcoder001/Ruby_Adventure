@@ -20,6 +20,7 @@ public class RubyController : MonoBehaviour
     Animator animator;
     Vector2 lookDirection = new Vector2(1,0);
     AudioSource audioSource;
+    public AudioClip hitDame,throwCog;
     void Start()
     {
         // Setting Timming and framerate 
@@ -102,6 +103,7 @@ public class RubyController : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth + amount,0,maxHealth);
         UIHealthBar.instance.SetValue(currentHealth/ (float)maxHealth);
         Debug.Log(currentHealth + "/" + maxHealth);
+        PlaySound(hitDame);
     }
 
     void Launch()
@@ -112,6 +114,7 @@ public class RubyController : MonoBehaviour
         projectile.Launch(lookDirection, 300);
 
         animator.SetTrigger("Launch");
+        PlaySound(throwCog);
     }
 
     public void PlaySound(AudioClip clip)

@@ -29,7 +29,7 @@ public class EnemiesController : MonoBehaviour
         //remember ! inverse the test, so if broken is true !broken will be false and return won’t be executed.
         if(!broken)
         {
-            return;
+            StartCoroutine(waiting());
         }
 
         time -= Time.deltaTime;
@@ -66,10 +66,14 @@ public class EnemiesController : MonoBehaviour
         enemyRb.MovePosition(position);
     }
 
-    // IEnumerator waiting()
-    // {
-    //     yield return new WaitForSeconds(3);
-    // } 
+    IEnumerator waiting()
+    {
+        yield return new WaitForSeconds(3);
+        broken = true;
+        enemyRb.simulated = true;
+        smokeEffect.Stop();
+        animator.SetBool("Fixed",false);
+    } 
 
     //Public because we want to call it from elsewhere like the projectile script
     public void Fix()
@@ -77,18 +81,9 @@ public class EnemiesController : MonoBehaviour
         broken = false;
         enemyRb.simulated = false;
         //optional if you added the fixed animation
-        animator.SetTrigger("Fixed");
-        
-        smokeEffect.Stop();
+        animator.SetBool("Fixed",true);
+        smokeEffect.Play();
     }
-
-    // public void Broken()
-    // {
-    //     broken = true;
-    //     // smokeEffect.Play();
-    //     enemyRb.simulated = false;
-    //     animator.SetTrigger("Fixed");
-    // }
 
     void OnCollisionEnter2D(Collision2D other) {
         RubyController player = other.gameObject.GetComponent<RubyController>();
